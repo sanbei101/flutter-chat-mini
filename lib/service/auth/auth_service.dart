@@ -3,6 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthService {
   // 定义 Supabase 客户端
   final SupabaseClient _supabaseClient = Supabase.instance.client;
+  // 获取当前用户
+  User? get currentUser => _supabaseClient.auth.currentUser;
 
   // 登入
   Future<void> signInWithEmailPassword(String email, String password) async {
