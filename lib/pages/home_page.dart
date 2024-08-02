@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.grey,
         elevation: 0,
-        title: const Text("Home"),
+        title: const Text("主页"),
         actions: [
           //登出按钮
           IconButton(
@@ -73,7 +73,6 @@ class HomePage extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => ChatPage(
               receiverEmail: userData["email"],
-              receiverId: '',
             ),
           ),
         );
