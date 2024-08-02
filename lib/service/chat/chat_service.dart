@@ -41,13 +41,8 @@ class ChatService {
   // 发送消息
   Future<void> sendMessage(String receiveEmail, String message) async {
     // 获取当前用户信息
-    final currentUserEmail = _supabaseClient.auth.currentUser!.email;
+    final currentUserEmail = _supabaseClient.auth.currentUser!.email!;
     final DateTime timeStamp = DateTime.now();
-
-    if (currentUserEmail == null) {
-      // 处理用户未登录或邮箱为空的情况
-      return;
-    }
 
     // 创建消息
     Message newMessage = Message(

@@ -59,7 +59,7 @@ class LoginPage extends StatelessWidget {
 
             // 欢迎回来消息
             Text(
-              "welcome back",
+              "欢迎回来",
               style: TextStyle(
                   color: Theme.of(context).colorScheme.primary, fontSize: 30),
             ),
@@ -71,7 +71,7 @@ class LoginPage extends StatelessWidget {
             // 邮箱输入框
             MyTextfiled(
               controller: _emailController,
-              hintText: "email",
+              hintText: "邮箱",
               obscureText: false,
             ),
 
@@ -82,7 +82,7 @@ class LoginPage extends StatelessWidget {
             // 密码输入框
             MyTextfiled(
               controller: _passwordController,
-              hintText: "password",
+              hintText: "密码",
               obscureText: true,
             ),
 
@@ -92,7 +92,7 @@ class LoginPage extends StatelessWidget {
 
             // 登录按钮
             MyButton(
-              text: "Login",
+              text: "登入",
               onTap: () => login(context),
             ),
 
@@ -105,7 +105,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 // 显示提示用户注册的文本
                 Text(
-                  "Don't have an account?",
+                  "没有账号?",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                   ),
@@ -115,7 +115,7 @@ class LoginPage extends StatelessWidget {
                   // 当用户点击注册文本时，触发 onTap 回调
                   onTap: onTap,
                   child: Text(
-                    "Register",
+                    "注册",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,

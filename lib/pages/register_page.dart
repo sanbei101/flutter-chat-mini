@@ -67,7 +67,7 @@ class RegisterPage extends StatelessWidget {
 
             // 注册消息
             Text(
-              "register",
+              "欢迎你注册",
               style: TextStyle(
                   color: Theme.of(context).colorScheme.primary, fontSize: 30),
             ),
@@ -79,7 +79,7 @@ class RegisterPage extends StatelessWidget {
             // 邮箱输入框
             MyTextfiled(
               controller: _emailController,
-              hintText: "email",
+              hintText: "邮箱",
               obscureText: false,
             ),
 
@@ -90,7 +90,7 @@ class RegisterPage extends StatelessWidget {
             // 密码输入框
             MyTextfiled(
               controller: _passwordController,
-              hintText: "password",
+              hintText: "密码",
               obscureText: true,
             ),
 
@@ -101,7 +101,7 @@ class RegisterPage extends StatelessWidget {
             // 确认密码输入框
             MyTextfiled(
               controller: _confirmPwController,
-              hintText: "confirm password",
+              hintText: "确认密码",
               obscureText: true,
             ),
 
@@ -111,7 +111,7 @@ class RegisterPage extends StatelessWidget {
 
             // 注册按钮
             MyButton(
-              text: "register",
+              text: "注册",
               onTap: () => register(context),
             ),
 
@@ -124,7 +124,7 @@ class RegisterPage extends StatelessWidget {
               children: [
                 // 显示提示用户登录的文本
                 Text(
-                  "already have an account?",
+                  "已经有账号?",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                   ),
@@ -134,7 +134,7 @@ class RegisterPage extends StatelessWidget {
                   // 当用户点击登录文本时，触发 onTap 回调
                   onTap: onTap,
                   child: Text(
-                    "login",
+                    "登入",
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,

@@ -37,17 +37,17 @@ class HomePage extends StatelessWidget {
     return StreamBuilder(
       stream: _chatService.getUsersStream(),
       builder: (context, snapshot) {
-        // error
+        // 错误处理
         if (snapshot.hasError) {
-          return const Text("Error");
+          return const Text("加载错误");
         }
 
-        // loading..
+        // 加载中
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading..");
+          return const Text("加载中...");
         }
 
-        // return list view
+        //返回用户列表视图
         if (snapshot.hasData) {
           var userList = snapshot.data as List<Map<String, dynamic>>;
           return ListView(
@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
                 .toList(),
           );
         } else {
-          return const Text("No data available");
+          return const Text("没有数据");
         }
       },
     );
