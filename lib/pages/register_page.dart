@@ -11,13 +11,13 @@ class RegisterPage extends StatelessWidget {
   final TextEditingController _confirmPwController = TextEditingController();
   final void Function()? onTap;
 
-  void register(BuildContext context) {
+  void register(BuildContext context) async {
     final authService = AuthService();
     // 检查密码和确认密码是否匹配
     if (_passwordController.text == _confirmPwController.text) {
       try {
         // 尝试使用邮箱和密码注册
-        authService.signUpWithEmailPassword(
+        await authService.signUpWithEmailPassword(
           _emailController.text,
           _passwordController.text,
         );
@@ -37,7 +37,6 @@ class RegisterPage extends StatelessWidget {
     //如果密码不匹配
     else {
       showDialog(
-        // ignore: use_build_context_synchronously
         context: context,
         builder: (context) => const AlertDialog(
           title: Text("密码不匹配"),
