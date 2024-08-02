@@ -4,25 +4,29 @@ import 'package:flutterchat/components/my_button.dart';
 import 'package:flutterchat/components/my_textfiled.dart';
 
 class LoginPage extends StatelessWidget {
-  //email and password controller
+  // 邮箱和密码的控制器
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  // 构造函数，接受一个点击回调函数
   LoginPage({super.key, required this.onTap});
-  // fuction to register page
+
+  // 跳转到注册页面的回调函数
   final void Function()? onTap;
 
+  // 登录函数
   void login(BuildContext context) async {
-    // auth service
+    // 认证服务
     final authService = AuthService();
 
-    // try login
+    // 尝试登录
     try {
       await authService.signInWithEmailPassword(
         _emailController.text,
         _passwordController.text,
       );
     }
-    // catch any errors
+    // 捕获任何错误
     catch (e) {
       showDialog(
         // ignore: use_build_context_synchronously
@@ -42,7 +46,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //icon
+            // 图标
             Icon(
               Icons.message,
               size: 60,
@@ -53,7 +57,7 @@ class LoginPage extends StatelessWidget {
               height: 50,
             ),
 
-            //welcome back message
+            // 欢迎回来消息
             Text(
               "welcome back",
               style: TextStyle(
@@ -64,7 +68,7 @@ class LoginPage extends StatelessWidget {
               height: 50,
             ),
 
-            //email field
+            // 邮箱输入框
             MyTextfiled(
               controller: _emailController,
               hintText: "email",
@@ -75,7 +79,7 @@ class LoginPage extends StatelessWidget {
               height: 10,
             ),
 
-            //password field
+            // 密码输入框
             MyTextfiled(
               controller: _passwordController,
               hintText: "password",
@@ -86,7 +90,7 @@ class LoginPage extends StatelessWidget {
               height: 25,
             ),
 
-            //login button
+            // 登录按钮
             MyButton(
               text: "Login",
               onTap: () => login(context),
@@ -95,23 +99,28 @@ class LoginPage extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-
             Row(
+              // 将子组件在主轴上居中对齐
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // 显示提示用户注册的文本
                 Text(
                   "Don't have an account?",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
+                // 可点击的注册文本
                 GestureDetector(
+                  // 当用户点击注册文本时，触发 onTap 回调
                   onTap: onTap,
-                  child: Text("Register",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  child: Text(
+                    "Register",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -5,7 +5,7 @@ import 'package:flutterchat/components/my_textfiled.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key, required this.onTap});
-  //email and password controller
+  // 邮箱和密码的控制器
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPwController = TextEditingController();
@@ -13,17 +13,21 @@ class RegisterPage extends StatelessWidget {
 
   void register(BuildContext context) {
     final authService = AuthService();
+    // 检查密码和确认密码是否匹配
     if (_passwordController.text == _confirmPwController.text) {
       try {
+        // 尝试使用邮箱和密码注册
         authService.signUpWithEmailPassword(
           _emailController.text,
           _passwordController.text,
         );
       } catch (e) {
+        // 捕获任何错误并显示对话框
         showDialog(
           // ignore: use_build_context_synchronously
           context: context,
           builder: (context) => AlertDialog(
+            // 显示错误信息
             title: Text(e.toString()),
           ),
         );
@@ -50,7 +54,7 @@ class RegisterPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //icon
+            // 图标
             Icon(
               Icons.message,
               size: 60,
@@ -61,7 +65,7 @@ class RegisterPage extends StatelessWidget {
               height: 50,
             ),
 
-            //welcome back message
+            // 注册消息
             Text(
               "register",
               style: TextStyle(
@@ -72,7 +76,7 @@ class RegisterPage extends StatelessWidget {
               height: 50,
             ),
 
-            //email field
+            // 邮箱输入框
             MyTextfiled(
               controller: _emailController,
               hintText: "email",
@@ -83,7 +87,7 @@ class RegisterPage extends StatelessWidget {
               height: 10,
             ),
 
-            //password field
+            // 密码输入框
             MyTextfiled(
               controller: _passwordController,
               hintText: "password",
@@ -94,6 +98,7 @@ class RegisterPage extends StatelessWidget {
               height: 10,
             ),
 
+            // 确认密码输入框
             MyTextfiled(
               controller: _confirmPwController,
               hintText: "confirm password",
@@ -104,7 +109,7 @@ class RegisterPage extends StatelessWidget {
               height: 25,
             ),
 
-            //register button
+            // 注册按钮
             MyButton(
               text: "register",
               onTap: () => register(context),
@@ -113,23 +118,28 @@ class RegisterPage extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-
             Row(
+              // 将子组件在主轴上居中对齐
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // 显示提示用户登录的文本
                 Text(
                   "already have an account?",
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
+                // 可点击的登录文本
                 GestureDetector(
+                  // 当用户点击登录文本时，触发 onTap 回调
                   onTap: onTap,
-                  child: Text("login",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  child: Text(
+                    "login",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
