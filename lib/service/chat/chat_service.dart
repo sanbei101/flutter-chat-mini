@@ -25,7 +25,7 @@ class ChatService {
         .from('chat_message')
         .stream(primaryKey: ['timeStamp'])
         .eq('receiverEmail', receiverEmail)
-        .order('time_stamp', ascending: false) // 按时间戳降序排列消息
+        .order('timeStamp', ascending: false) // 按时间戳降序排列消息
         .map((snapshot) {
           return snapshot.map((message) {
             return {
