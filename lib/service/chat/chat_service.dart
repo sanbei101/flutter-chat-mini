@@ -29,11 +29,6 @@ class ChatService {
             'p_user2_email': receiverEmail
           });
 
-      if (response.error != null) {
-        throw Exception(
-            'Failed to fetch chat room ID: ${response.error!.message}');
-      }
-
       final chatRoomID = response.data;
 
       // 获取消息流
@@ -71,11 +66,6 @@ class ChatService {
             'p_user2_email': receiverEmail
           });
 
-      if (response.error != null) {
-        throw Exception(
-            'Failed to fetch or create chat room ID: ${response.error!.message}');
-      }
-
       final chatRoomID = response.data;
 
       // 创建消息
@@ -85,15 +75,8 @@ class ChatService {
           receiverEmail: receiverEmail,
           message: message,
           timeStamp: timeStamp);
-
       // 插入消息到 Supabase 的 chat_message 表
-      final insertResponse =
-          await _supabaseClient.from('chat_message').insert(newMessage.toMap());
-
-      if (insertResponse.error != null) {
-        throw Exception(
-            'Failed to send message: ${insertResponse.error!.message}');
-      }
+      await _supabaseClient.from('chat_message').insert(newMessage.toMap());
     } catch (e) {
       throw Exception('Error occurred while sending message: $e');
     }
