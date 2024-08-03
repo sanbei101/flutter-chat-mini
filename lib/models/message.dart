@@ -2,7 +2,8 @@ class Message {
   // 发送者和接收者的电子邮件
   final String senderEmail;
   final String receiverEmail;
-
+  //chatRoomID
+  final String chatRoomID;
   // 消息内容
   final String message;
   // 消息的时间戳
@@ -12,6 +13,7 @@ class Message {
   Message({
     required this.receiverEmail,
     required this.senderEmail,
+    required this.chatRoomID,
     required this.message,
     required this.timeStamp,
   });
@@ -21,6 +23,7 @@ class Message {
     return {
       'senderEmail': senderEmail,
       'receiverEmail': receiverEmail,
+      'chatRoomID': chatRoomID,
       'message': message,
       'timeStamp': timeStamp.toIso8601String(),
     };

@@ -20,12 +20,24 @@ class ChatService {
 
 // 获取消息流列表
   Stream<List<Map<String, dynamic>>> getMessagesStream(
-      String senderEmail, String receiverEmail) {
-    return _supabaseClient
+      String senderEmail, String receiverEmail) async* {
+    // 调用RPC函数获取ChatRoom的ID
+    final response = await _supabaseClient.rpc('get_chat_room_id',
+        params: {'user1_email': senderEmail, 'user2_email': receiverEmail});
+
+    if (response.error != null) {
+      throw Exception(
+          'Failed to fetch chat room ID: ${response.error!.message}');
+    }
+
+    final chatRoomID = response.data;
+
+    // 获取消息流
+    yield* _supabaseClient
         .from('chat_message')
-        .stream(primaryKey: ['timeStamp'])
-        .eq('receiverEmail', receiverEmail)
-        .order('timeStamp', ascending: false) // 按时间戳降序排列消息
+        .stream(primaryKey: ['chatRoomID'])
+        .eq('chatRoomID', chatRoomID)
+        .order('timeStamp', ascending: false)
         .map((snapshot) {
           return snapshot.map((message) {
             return {
@@ -39,24 +51,40 @@ class ChatService {
   }
 
   // 发送消息
-  Future<void> sendMessage(String receiveEmail, String message) async {
+  Future<void> sendMessage(String receiverEmail, String message) async {
     // 获取当前用户信息
     final currentUserEmail = _supabaseClient.auth.currentUser!.email!;
     final DateTime timeStamp = DateTime.now();
 
-    // 创建消息
-    Message newMessage = Message(
-      senderEmail: currentUserEmail,
-      receiverEmail: receiveEmail,
-      message: message,
-      timeStamp: timeStamp,
-    );
-    // 插入消息到 Supabase 的 chat_message 表
-    final response =
-        await _supabaseClient.from('chat_message').insert(newMessage.toMap());
+    // 调用RPC函数获取或创建ChatRoom的ID
+    final response = await _supabaseClient.rpc('get_or_create_chat_room',
+        params: {
+          'user1_email': currentUserEmail,
+          'user2_email': receiverEmail
+        });
 
     if (response.error != null) {
-      // 处理插入消息时的错误
+      throw Exception(
+          'Failed to fetch or create chat room ID: ${response.error!.message}');
+    }
+
+    final chatRoomID = response.data;
+
+    // 创建消息
+    final newMessage = Message(
+        chatRoomID: chatRoomID,
+        senderEmail: currentUserEmail,
+        receiverEmail: receiverEmail,
+        message: message,
+        timeStamp: timeStamp);
+
+    // 插入消息到 Supabase 的 chat_message 表
+    final insertResponse =
+        await _supabaseClient.from('chat_message').insert(newMessage.toMap());
+
+    if (insertResponse.error != null) {
+      throw Exception(
+          'Failed to send message: ${insertResponse.error!.message}');
     }
   }
 }
