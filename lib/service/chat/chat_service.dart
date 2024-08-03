@@ -23,13 +23,11 @@ class ChatService {
       String senderEmail, String receiverEmail) async* {
     // 调用RPC函数获取ChatRoom的ID
     try {
-      final response = await _supabaseClient.rpc('get_or_create_chat_room',
-          params: {
-            'p_user1_email': senderEmail,
-            'p_user2_email': receiverEmail
-          });
-
-      final chatRoomID = response.data;
+      final String chatRoomID = await _supabaseClient
+          .rpc('get_or_create_chat_room', params: {
+        'p_user1_email': senderEmail,
+        'p_user2_email': receiverEmail
+      });
 
       // 获取消息流
       yield* _supabaseClient
@@ -60,13 +58,11 @@ class ChatService {
       final DateTime timeStamp = DateTime.now();
 
       // 调用RPC函数获取或创建ChatRoom的ID
-      final response = await _supabaseClient.rpc('get_or_create_chat_room',
-          params: {
-            'p_user1_email': currentUserEmail,
-            'p_user2_email': receiverEmail
-          });
-
-      final chatRoomID = response.data;
+      final String chatRoomID = await _supabaseClient
+          .rpc('get_or_create_chat_room', params: {
+        'p_user1_email': currentUserEmail,
+        'p_user2_email': receiverEmail
+      });
 
       // 创建消息
       final newMessage = Message(
