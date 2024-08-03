@@ -12,48 +12,52 @@ class AuthGate extends StatefulWidget {
 }
 
 class AuthGateState extends State<AuthGate> {
-  late Future<bool> _isLoggedInFuture;
+  late Future<bool> _initialLoginCheckFuture;
 
   @override
   void initState() {
     super.initState();
-    _isLoggedInFuture = _checkLoginStatus();
+    _initialLoginCheckFuture = _checkInitialLoginStatus();
   }
 
-  Future<bool> _checkLoginStatus() async {
+  Future<bool> _checkInitialLoginStatus() async {
     final session = Supabase.instance.client.auth.currentSession;
-    if (session != null) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', true);
-      return true;
-    } else {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isLoggedIn', false);
-      return false;
-    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = session != null;
+    await prefs.setBool('isLoggedIn', isLoggedIn);
+    return isLoggedIn;
   }
 
   Future<void> _signOut() async {
     await Supabase.instance.client.auth.signOut();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', false);
-    setState(() {
-      _isLoggedInFuture = Future.value(false);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<bool>(
-        future: _isLoggedInFuture,
+        future: _initialLoginCheckFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasData && snapshot.data == true) {
-            return HomePage(signOut: _signOut);
+            return const Center(child: CircularProgressIndicator());
           } else {
-            return const LoginOrRegister();
+            // 使用StreamBuilder来监听认证状态的变化
+            return StreamBuilder<AuthState>(
+              stream: Supabase.instance.client.auth.onAuthStateChange,
+              builder: (context, authSnapshot) {
+                if (authSnapshot.hasData) {
+                  final authState = authSnapshot.data!;
+                  if (authState.event == AuthChangeEvent.signedIn) {
+                    // 用户已登录，显示HomePage
+                    return HomePage(signOut: _signOut);
+                  }
+                }
+                // 用户未登录或登出，显示LoginOrRegister
+                return const LoginOrRegister();
+              },
+            );
           }
         },
       ),
