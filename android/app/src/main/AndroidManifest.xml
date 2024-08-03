@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="flutterchat"
+        android:label="浩然的聊天室"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
