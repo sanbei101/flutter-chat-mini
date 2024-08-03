@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutterchat/components/user_tile.dart';
 import 'package:flutterchat/pages/chat_page.dart';
+import 'package:flutterchat/service/auth/auth_service.dart';
 import 'package:flutterchat/service/chat/chat_service.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key, required this.signOut});
+  HomePage({super.key});
   final ChatService _chatService = ChatService();
 
-  final VoidCallback signOut;
+  void logout() {
+    final AuthService authService = AuthService();
+    authService.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class HomePage extends StatelessWidget {
           //登出按钮
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: logout,
           ),
         ],
       ),
