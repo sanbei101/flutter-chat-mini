@@ -32,8 +32,9 @@ class LoginPage extends StatelessWidget {
         // ignore: use_build_context_synchronously
         context: context,
         builder: (context) => AlertDialog(
-          title: Text(e.toString()),
-        ), // AlertDialog
+          title: const Text("登录失败"),
+          content: Text(e.toString()),
+        ),
       );
     }
   }

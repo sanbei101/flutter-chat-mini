@@ -28,7 +28,8 @@ class RegisterPage extends StatelessWidget {
           context: context,
           builder: (context) => AlertDialog(
             // 显示错误信息
-            title: Text(e.toString()),
+            title: const Text("注册失败"),
+            content: Text(e.toString()),
           ),
         );
       }

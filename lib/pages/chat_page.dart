@@ -12,10 +12,21 @@ class ChatPage extends StatelessWidget {
   final TextEditingController messageController = TextEditingController();
   final ChatService chatService = ChatService();
 
-  void sendMessage() {
-    final message = messageController.text;
-    chatService.sendMessage(receiverEmail, message);
-    messageController.clear();
+  void sendMessage(BuildContext context) async {
+    try {
+      final message = messageController.text;
+      await chatService.sendMessage(receiverEmail, message);
+      messageController.clear();
+    } catch (e) {
+      showDialog(
+        // ignore: use_build_context_synchronously
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("发送消息失败"),
+          content: Text(e.toString()),
+        ),
+      );
+    }
   }
 
   @override
@@ -32,7 +43,7 @@ class ChatPage extends StatelessWidget {
           Expanded(
             child: _buildMessageList(),
           ),
-          _buildInputField(),
+          _buildInputField(context),
         ],
       ),
     );
@@ -43,7 +54,13 @@ class ChatPage extends StatelessWidget {
       stream: chatService.getMessagesStream(senderEmail, receiverEmail),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(child: Text("加载错误: ${snapshot.error}"));
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('加载错误'),
+              content: Text(snapshot.error.toString()),
+            ),
+          );
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -80,7 +97,7 @@ class ChatPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInputField() {
+  Widget _buildInputField(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
@@ -103,7 +120,7 @@ class ChatPage extends StatelessWidget {
                 Icons.arrow_upward,
                 color: Colors.white,
               ),
-              onPressed: sendMessage,
+              onPressed: () => sendMessage(context),
             ),
           ),
         ],
