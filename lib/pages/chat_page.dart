@@ -43,7 +43,7 @@ class ChatPage extends StatelessWidget {
       stream: chatService.getMessagesStream(senderEmail, receiverEmail),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return const Center(child: Text("加载错误"));
+          return Center(child: Text("加载错误: ${snapshot.error}"));
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
