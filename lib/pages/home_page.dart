@@ -39,12 +39,12 @@ class HomePage extends StatelessWidget {
       builder: (context, snapshot) {
         // 错误处理
         if (snapshot.hasError) {
-          return const Text("加载错误");
+          return const Center(child: Text("加载错误"));
         }
 
-        // 加载中
+        //正在加载
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("加载中...");
+          return const Center(child: CircularProgressIndicator());
         }
 
         //返回用户列表视图
@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
                 .toList(),
           );
         } else {
-          return const Text("没有数据");
+          return const Center(child: Text("加载错误"));
         }
       },
     );
