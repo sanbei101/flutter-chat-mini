@@ -24,6 +24,14 @@ jobs:
 
       - name: Flutter Pub Get
         run: flutter pub get
+        
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: |
+            build-tools
+            platform-tools
+            tools
 
       - name: Build APK
         run: flutter build apk --split-per-abi
