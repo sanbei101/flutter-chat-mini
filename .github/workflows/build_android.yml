@@ -28,10 +28,7 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
-          packages: |
-            build-tools
-            platform-tools
-            tools
+          packages: 'build-tools,platform-tools,tools'
 
       - name: Build APK
         run: flutter build apk --split-per-abi
