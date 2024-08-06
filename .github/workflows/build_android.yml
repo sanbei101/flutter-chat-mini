@@ -21,6 +21,8 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.3'
+          channel: stable
+          cache: true
 
       - name: Flutter Pub Get
         run: flutter pub get
@@ -30,7 +32,7 @@ jobs:
 
         
       - name: install build-tools
-        run: sdkmanager build-tools
+        run: sdkmanager "build-tools;34.0.0"
 
       - name: Build APK
         run: flutter build apk --split-per-abi
