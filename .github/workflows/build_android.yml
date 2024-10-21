@@ -14,11 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 19
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'adopt'
-          java-version: '19'
+          java-version: '17'
 
       - name: Install Flutter
         uses: subosito/flutter-action@v2
