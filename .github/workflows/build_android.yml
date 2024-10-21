@@ -26,6 +26,8 @@ jobs:
           flutter-version: '3.24.3'
           channel: stable
           cache: true
+      - name: Flutter Clean
+        run: flutter clean
 
       - name: Flutter Pub Get
         run: flutter pub get
