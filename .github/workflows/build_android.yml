@@ -30,7 +30,10 @@ jobs:
         run: flutter clean
 
       - name: Flutter Pub Get
-        run: flutter pub get
+        run: flutter pub 
+        
+      - name: Set Flutter JDK
+        run: flutter config --jdk-dir $JAVA_HOME
 
       - name: Build APK
         run: flutter build apk --split-per-abi
