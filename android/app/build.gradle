@@ -26,7 +26,6 @@ if (flutterVersionName == null) {
 android {
     namespace = "com.example.flutterchat"
     compileSdkVersion 34
-    buildToolsVersion = '34.0.0'
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
